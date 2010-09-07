@@ -9,10 +9,6 @@ require 'instiki_stringsupport'
 class SanitizerTest < Test::Unit::TestCase
 
   include Sanitizer
-  
-  def setup
-
-  end
 
   def do_sanitize_xhtml stream
     xhtml_sanitize(stream)
