@@ -1,0 +1,26 @@
+# SQLite version 3.x
+#   gem install sqlite3-ruby
+
+development:
+  adapter: sqlite3
+  database: db/development.db.sqlite3
+
+test:
+  adapter: sqlite3
+  database: db/test.db.sqlite3
+
+production:
+  adapter: sqlite3
+  database: db/production.db.sqlite3
+
+
+# SQLite version 2.x
+#   gem install sqlite-ruby
+development:
+  adapter: sqlite
+  database: db/development.db.sqlite2
+
+# In-memory SQLite 3 database.  Useful for tests.
+test:
+  adapter: sqlite3
+  database: ":memory:"
