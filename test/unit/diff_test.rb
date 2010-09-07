@@ -5,10 +5,6 @@ require 'xhtmldiff'
 
 class DiffTest < Test::Unit::TestCase
 
-  def setup
-
-  end
-
   def diff(a,b)
     diff_doc = REXML::Document.new
     div = REXML::Element.new('div', nil, {:respect_whitespace =>:all})
