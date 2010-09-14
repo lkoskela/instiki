@@ -142,6 +142,10 @@ module Sanitizer
         results = []
 
         while token = tokenizer.next
+          # prevent XSS attacks:
+          if token =~ /<([\w_\-\.0-9]+)\/([^\s]+)>/
+            token = "<#{$1}>"
+          end
           node = XHTML::Node.parse(nil, 0, 0, token, false)
           results << case node.tag?
             when true
