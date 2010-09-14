@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 
+require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 require Rails.root.join('test', 'test_helper')
 
 class PageRendererTest < ActiveSupport::TestCase
