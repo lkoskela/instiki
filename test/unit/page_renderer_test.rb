@@ -323,7 +323,7 @@ END_THM
       assert_match_markup_parsed_as(re, '$$a\sin(\theta)$$')
 
     else
-      print "\nBlahTeX not found ... skipping.\n"
+      print "(BlahTeX not found - skipping test)"
     end
   end
 
@@ -415,7 +415,7 @@ END_THM
         'This is a redirected link: [[booze]]. This is not: [[hooch]]')
   end
 
-  def test_content_with_wikiword_in_equations
+  def test_content_with_wikiword_in_equations_with_block_quotes
     assert_markup_parsed_as(
         "<p>should we go <a class='existingWikiWord' href='../show/ThatWay'>" +
 	    "That Way</a> or</p>\n<div class='maruku-equation' id='eq:eq1'>" +
@@ -424,7 +424,9 @@ END_THM
 	    "<span class='maruku-eq-tex'><code style='display: none;'>ThisWay</code>" +
 	    "</span></div>", 
         "should we go ThatWay or \n\\[ThisWay\\]\n")
+  end
 
+  def test_content_with_wikiword_in_equations_with_double_dollar_signs_on_its_own_line
     assert_markup_parsed_as(
         "<p>should we go <a class='existingWikiWord' href='../show/ThatWay'>" +
 	    "That Way</a> or</p>\n<div class='maruku-equation'>" +
@@ -433,7 +435,9 @@ END_THM
 	    "<span class='maruku-eq-tex'><code style='display: none;'>ThisWay</code>" +
 	    "</span></div>", 
         "should we go ThatWay or \n$$ThisWay$$\n")
-        
+  end
+
+  def test_content_with_wikiword_in_equations_with_double_dollar_signs        
     assert_markup_parsed_as(
         "<p>should we go <a class='existingWikiWord' href='../show/ThatWay'>" +
 	    "That Way</a> or</p>\n<div class='maruku-equation'>" +
@@ -443,14 +447,18 @@ END_THM
 	    "<span class='maruku-eq-tex'><code style='display: none;'>ThisWay \\$100 " +
 	    "ThatWay</code></span></div>", 
         "should we go ThatWay or \n$$ThisWay \\$100 ThatWay $$\n")
+  end
 
+  def test_content_with_wikiword_in_equations_with_existing_math_element
     assert_markup_parsed_as(
         "<p>should we go <a class='existingWikiWord' href='../show/ThatWay'>" +
 	    "That Way</a> or <math class='maruku-mathml' display='inline' " +
 	    "xmlns='http://www.w3.org/1998/Math/MathML'><mi>ThisWay</mi></math> today.</p>", 
         "should we go ThatWay or <math class='maruku-mathml' display='inline' " +
 	    "xmlns='http://www.w3.org/1998/Math/MathML'><mi>ThisWay</mi></math> today.")
+  end
 
+  def test_content_with_wikiword_in_equations_with_single_dollar_signs
     assert_markup_parsed_as(
         "<p>should we go <a class='existingWikiWord' href='../show/ThatWay'>" +
 	    "That Way</a> or <math class='maruku-mathml' display='inline' " +
