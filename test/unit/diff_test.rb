@@ -1,25 +1,11 @@
 #!/usr/bin/env ruby
 
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
-require 'xhtmldiff'
+require 'diff'
 
 class DiffTest < Test::Unit::TestCase
 
-  def diff(a,b)
-    diff_doc = REXML::Document.new
-    div = REXML::Element.new('div', nil, {:respect_whitespace =>:all})
-    div.attributes['class'] = 'xhtmldiff_wrapper'
-    diff_doc << div
-    hd = XHTMLDiff.new(div)
-    parsed_a = REXML::HashableElementDelegator.new(
-           REXML::XPath.first(REXML::Document.new("<div>"+a+"</div>"), '/div'))
-    parsed_b = REXML::HashableElementDelegator.new(
-           REXML::XPath.first(REXML::Document.new("<div>"+b+"</div>"), '/div'))
-    Diff::LCS.traverse_balanced(parsed_a, parsed_b, hd)
-    diffs = ''
-    diff_doc.write(diffs, -1, true, true)
-    diffs.gsub(/\A<div class='xhtmldiff_wrapper'>(.*)<\/div>\Z/m, '\1')
-  end
+  include Diff
 
   def test_html_diff_simple
     a = 'this was the original string'

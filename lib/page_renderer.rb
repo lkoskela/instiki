@@ -1,9 +1,11 @@
-require 'xhtmldiff'
+require 'diff'
 
 # Temporary class containing all rendering stuff from a Revision 
-# I want to shift all rendering loguc to the controller eventually
+# I want to shift all rendering logic to the controller eventually
 
 class PageRenderer
+  
+  include Diff
 
   def self.setup_url_generator(url_generator)
     @@url_generator = url_generator
@@ -40,24 +42,9 @@ class PageRenderer
   def display_diff
     previous_revision = @revision.page.previous_revision(@revision)
     if previous_revision
-
-      previous_content = "<div>" + WikiContent.new(previous_revision, @@url_generator).render!.to_s + "</div>"
-      current_content = "<div>" + display_content.to_s  + "</div>"
-      diff_doc = REXML::Document.new
-      div = REXML::Element.new('div', nil, {:respect_whitespace =>:all})
-      div.attributes['class'] = 'xhtmldiff_wrapper'
-      diff_doc << div
-      hd = XHTMLDiff.new(div)
-
-      parsed_previous_revision = REXML::HashableElementDelegator.new(
-           REXML::XPath.first(REXML::Document.new(previous_content), '/div'))
-      parsed_display_content = REXML::HashableElementDelegator.new(
-           REXML::XPath.first(REXML::Document.new(current_content), '/div'))
-      Diff::LCS.traverse_balanced(parsed_previous_revision, parsed_display_content, hd)
-
-      diffs = ''
-      diff_doc.write(diffs, -1, true, true)
-      diffs.gsub(/\A<div class='xhtmldiff_wrapper'>(.*)<\/div>\Z/m, '\1').html_safe
+      a = WikiContent.new(previous_revision, @@url_generator).render!.to_s
+      b = display_content.to_s
+      diff(a, b)
     else
       display_content
     end
